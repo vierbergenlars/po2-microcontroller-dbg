@@ -50,6 +50,9 @@ int InOut7; //  TRISEbits.TRISE1
  * Other values are considered to be 1.
  */
 void setInOut(int pin, int inOut) {
+	char debug[50];
+	snprintf(debug, sizeof debug, "io %d: %d\n", pin, data);
+	debug_write(debug);
 	//printf("setInOut: pin %d to %d\n", pin, inOut); 
 	inOut = (inOut != 0);
 	switch(pin) {

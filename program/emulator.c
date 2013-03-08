@@ -1,11 +1,11 @@
-#include "../socket.h"
+#include "../lib/socket.h"
 #include "main.h"
 #include <string.h> // strcmp(), strlen(), strcpy(), itoa()
 #include <stdio.h> // printf()
 #include <stdlib.h> //atoi()
 #include <unistd.h> // sleep(), usleep()
 #include "../lib/platform.h"
-#include "../util.h"
+#include "../lib/util.h"
 #include "../lib/debug.h"
 
 int started = 0;
@@ -49,6 +49,27 @@ void handler(char in[100], char out[100]) {
 
 		
 	}
+	else if(strncmp(in, "gio", 3) == 0) {
+		if(strncmp(in, "gio all", 7) == 0) {
+			int i;
+			for(i =1; i <=7; i++) {
+				int pin_val = getInOut(i);
+				char bit[100];
+				sprintf(bit, "io %d: %d\n", i, pin_val);
+				strcat(out, bit);
+			}
+		}
+		else {
+			char get_pin_id[2];
+			substring(4,5, in, get_pin_id, sizeof get_pin_id);
+
+			int pin_num = atoi(get_pin_id);
+
+			int pin_val = getInOut(pin_num);
+
+			sprintf(out, "io %d: %d", pin_num, pin_val);
+		}
+	}
 	else if(strncmp(in, "cont", 4) == 0) {
 		if(!started) {
 			init();
@@ -63,7 +84,7 @@ void handler(char in[100], char out[100]) {
 		init();
 	}
 	else {
-		sprintf(out, "Commands: restart, cont [runs], set <pin> <val>, get <pin>"); 
+		sprintf(out, "Commands: restart, cont [runs], set <pin> <val>, get <pin>, gio <pin>"); 
 	}
 }
 

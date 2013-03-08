@@ -28,6 +28,18 @@ window.on('ready', function() {
 			window.document.getElementById("led"+pin).checked = false;
 	}
 
+	function setPinIO(pin, to) {
+		console.log('setPinIO: '+pin+' to '+to);
+		if(to == "1") {
+			window.document.getElementById("pin"+pin+"Type").innerHTML = "OUT";
+			window.document.getElementById("led"+pin).enabled = false;
+		}
+		else {
+			window.document.getElementById("pin"+pin+"Type").innerHTML = "IN";
+			window.document.getElementById("led"+pin).enabled = true;
+		}
+	}
+
 	window.updatePin = function(elem) {
 		if(elem.checked) {
 			socket.write('set '+elem.id[3]+' 1');
@@ -46,12 +58,15 @@ window.on('ready', function() {
 			pins = data.split("\n");
 			for(i in pins) {
 				if(result = /pin ([1-7]): (0|1)/.exec(pins[i])) {
-					console.log(result);
 					setPin(result[1], result[2]);
+				}
+				else if(result = /io ([1-7]): (0|1)/.exec(pins[i])) {
+					setPinIO(result[1], result[2]);
 				}
 			}
 		});
 		socket.write('get all');
+		socket.write('gio all');
 	});
     window.addEventListener('keydown', function(e){
     // show chrome devtools on f12 or commmand+option+j
