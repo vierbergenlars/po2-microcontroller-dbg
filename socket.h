@@ -24,6 +24,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifndef HAVE_SOCKET_H
+#define HAVE_SOCKET_H
 /**
  * Creates a new socket and listens on it.
  * Returns the socket id
@@ -40,3 +42,4 @@ void socket_loop(unsigned int sock, void (*func)(char [100], char [100]));
  * Closes socket with socket id sock
  */
 void socket_close(unsigned int sock);
+#endif

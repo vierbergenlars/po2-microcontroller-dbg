@@ -1,4 +1,5 @@
-all: debugger
+all: socket_server
+
 
 
 HEADERS = $(wildcard *.h)
@@ -8,10 +9,9 @@ CC = gcc
 %.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-
-debugger: debugger.c
-	$(CC) $(CFLAGS) $< -o $@
+socket_server: main.o ../socket.o
+	$(CC) $+ -Wall -o $@
 
 clean:
 	rm -f *.o
-	rm -f debugger
+	rm -f socket_server

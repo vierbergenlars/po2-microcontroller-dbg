@@ -27,7 +27,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h> // signal()
-#include "socket.h"
+#include "../socket.h"
 #include <unistd.h>
 
 void echo(char in[100], char out[100]) {

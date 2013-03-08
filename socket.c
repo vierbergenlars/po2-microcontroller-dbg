@@ -23,7 +23,7 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
+#define SOCKET_DEBUG 0
 #include <stdio.h> // printf();
 #include <stdlib.h> // exit();
 #include <errno.h> // errno
@@ -76,11 +76,14 @@ void socket_loop(unsigned int sock, void (*func)(char [100], char [100])) {
 		while(1) {
 			//str[0] = "\0";
 			strncpy(str, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", sizeof(str));
+			strncpy(return_data, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", sizeof(return_data));
 			n = recv(s2, str, 100, 0);
 			if(n <=0) {
 				if(n < 0) socket_fail(errno, "Cannot recv from socket");
 			}
+			#if SOCKET_DEBUG
 			printf("DEBUG: str(%d) is `%s`\n", strlen(str), str);
+			#endif
 			if(strncmp(str, "close", 5) == 0) {
 				printf("Socket: Connection closed\n");
 				close(s2);
@@ -88,7 +91,9 @@ void socket_loop(unsigned int sock, void (*func)(char [100], char [100])) {
 			}
 
 			func(str, return_data);
+			#if SOCKET_DEBUG
 			printf("DEBUG: return_data(%d) is `%s`\n", strlen(return_data), return_data);
+			#endif
 			if(send(s2, return_data, 100, 0) < 0)
 				socket_fail(errno, "Cannot send to socket");
 		}
