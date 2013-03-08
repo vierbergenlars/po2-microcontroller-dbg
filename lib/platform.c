@@ -10,6 +10,7 @@
 #include "platform.h"
 #include <unistd.h> // sleep(), usleep()
 #include <stdio.h> // printf()
+#include "debug.h"
 
 
 // Some general configurations
@@ -119,7 +120,11 @@ int getInOut(int pin) {
  * to 0.
  */
 void setData(int pin, int data) {
-	printf("setData: pin %d to %d\n", pin, data); 
+	printf("setData: pin %d to %d\n", pin, data);
+	char debug[50];
+	snprintf(debug, sizeof debug, "pin %d: %d\n", pin, data);
+	debug_write(debug);
+
 	data =  (data != 0);
 	switch(pin) {
 		case 1:
@@ -206,6 +211,7 @@ int getData(int pin) {
 				break;
 		}
 	}
+
 	printf("getData: pin %d is %d\n", pin, data); 
 	return data;
 }

@@ -23,15 +23,15 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#define SOCKET_DEBUG 0
-#include <stdio.h> // printf();
+#define SOCKET_DEBUG 1
+#include <stdio.h> // printf()
 #include <stdlib.h> // exit();
 #include <errno.h> // errno
 #include <string.h> // strcmp(), strlen(), strcpy()
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/un.h> // unix sockets
-#include <unistd.h> // close()
+#include <unistd.h> // close(), sleep()
 void socket_fail(int err, char desc[]) {
 	perror(desc);
 	printf("[E] Socket(%d): %s\n", err, desc);
@@ -58,54 +58,59 @@ unsigned int socket_init(char filename[]) {
 	return sock;
 };
 
-void socket_loop(unsigned int sock, void (*func)(char [100], char [100])) {
+unsigned int socket_wait_client(unsigned int sock) {
 	struct sockaddr_un remote;
 	socklen_t len = sizeof(struct sockaddr_un);
 	int s2;
-	int n;
-	char str[100];
-	char return_data[100];
 
-	while (1) {
-		printf("Socket: Waiting for client...");
-		s2 = accept(sock, (struct sockaddr *)&remote, &len);
+	printf("Socket: Waiting for client...");
+	s2 = accept(sock, (struct sockaddr *)&remote, &len);
 
-		if(s2 == -1)
-			socket_fail(errno, "Cannot accept socket");
-		printf("[OK]\n");
-
-		while(1) {
-			//str[0] = "\0";
-			strncpy(str, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", sizeof(str));
-			strncpy(return_data, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", sizeof(return_data));
-			n = recv(s2, str, 100, 0);
-			if(n <=0) {
-				if(n < 0) socket_fail(errno, "Cannot recv from socket");
-			}
-			#if SOCKET_DEBUG
-			printf("DEBUG: str(%d) is `%s`\n", strlen(str), str);
-			#endif
-			if(strncmp(str, "close", 5) == 0) {
-				printf("Socket: Connection closed\n");
-				close(s2);
-				break;
-			}
-			else if(strncmp(str, "quit", 4) ==0) {
-				printf("Socket: Shutting down\n");
-				close(s2);
-				close(sock);
-				exit(0);
-			}
-
-			func(str, return_data);
-			#if SOCKET_DEBUG
-			printf("DEBUG: return_data(%d) is `%s`\n", strlen(return_data), return_data);
-			#endif
-			if(send(s2, return_data, 100, 0) < 0)
-				socket_fail(errno, "Cannot send to socket");
-		}
-	}
+	if(s2 == -1)
+		socket_fail(errno, "Cannot accept socket");
+	printf("[OK]\n");
+	return s2;
 };
+
+void socket_read(unsigned int sock, char str[], unsigned int len) {
+	if(recv(sock, str, len, 0) < 0) 
+		socket_fail(errno, "Cannot recv from socket");
+};
+
+void socket_write(unsigned int sock, char data[]) {
+	printf("DEBUG: socket_write(%d, %s)", sock, data);
+	if(send(sock, data, strlen(data), 0) < 0)
+		socket_fail(errno, "Cannot send to socket");
+};
+
+void socket_loop(unsigned int sock, void (*func)(char [100], char [100])) {
+	char str[102];
+	char return_data[100];
+	while(1) {
+		//str[0] = "\0";
+		strncpy(str, "", sizeof(str));
+		strncpy(return_data, "", sizeof(return_data));
+		socket_read(sock, str, sizeof str);
+
+		printf("DEBUG: str(%d) is `%s`\n", strlen(str), str);
+
+		if(strncmp(str, "close", 5) == 0) {
+			printf("Socket: Connection closed\n");
+			close(sock);
+			break;
+		}
+
+		func(str, return_data);
+		
+		printf("DEBUG: return_data(%d) is `%s`\n", strlen(return_data), return_data);
+		strncat(return_data, "\1", 1);
+		printf("DEBUG: return_data(%d) is `%s`\n", strlen(return_data), return_data);
+		socket_write(sock, return_data);
+	}
+	
+};
+
+
 
 void socket_close(unsigned int sock) {
 	printf("Socket: closed\n");

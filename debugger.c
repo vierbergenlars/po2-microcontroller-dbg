@@ -63,22 +63,27 @@ int main(int argc, char *argv[])
 
     while(printf("> "), fgets(str, 100, stdin), !feof(stdin)) {
 
-		strncpy(stripped_str, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", sizeof(stripped_str));
-		strncpy(stripped_str, str, strlen(str)-1);
-		if (send(s, stripped_str, strlen(stripped_str), 0) == -1) {
+	strncpy(stripped_str, "", sizeof(stripped_str));
+	strncpy(stripped_str, str, strlen(str)-1);
+	if (send(s, stripped_str, strlen(stripped_str), 0) == -1) {
             perror("send");
             exit(1);
         }
-		strncpy(str, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", sizeof(str));
-        if ((t=recv(s, str, 100, 0)) > 0) {
-            str[t] = '\0';
-            printf("%s\n", str);
-			strncpy(str, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", sizeof(str));
-        } else {
+	strncpy(str, "", sizeof(str));
+	int stop_it = 0;
+        while ((t=recv(s, str, 1, 0)) > 0&&!stop_it) {
+		str[t+1] = '\0';
+		printf("%s", str);
+		if(strncmp(str, "\1", 1) == 0) {
+			stop_it = 1;
+		}
+		strncpy(str, "", sizeof(str));
+        }
+	if(!stop_it) {
             if (t < 0) perror("recv");
             else printf("Server closed connection\n");
             exit(1);
-        }
+	}
     }
 
     close(s);

@@ -32,6 +32,12 @@
  */
 unsigned int socket_init(char filename[]);
 
+unsigned int socket_wait_client(unsigned int sock);
+
+void socket_read(unsigned int sock, char str[], unsigned int len);
+
+void socket_write(unsigned int sock, char data[]);
+
 /**
  * Runs func(char in[100], char out[100]) for each message sent over socket
  * With socket id sock

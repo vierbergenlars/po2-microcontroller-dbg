@@ -6,6 +6,7 @@
 #include <unistd.h> // sleep(), usleep()
 #include "../lib/platform.h"
 #include "../util.h"
+#include "../lib/debug.h"
 
 int started = 0;
 void handler(char in[100], char out[100]) {
@@ -53,20 +54,10 @@ void handler(char in[100], char out[100]) {
 			init();
 			started = 1;
 		}
-		char loop_runs[100];
-		substring(5,100, in, loop_runs, sizeof loop_runs);
+		printf("----[Main]----");
+		loop();
+		printf("----[End]-----");
 
-		unsigned int num_loops = atoi(loop_runs);
-
-		sprintf(out, "Doing %u loops", num_loops);
-
-		do {
-			printf("-----[Remaining loops: %u of %s]-----\n", num_loops, loop_runs);
-			loop();
-			usleep(1000);
-
-		} while(--num_loops > 0);
-		printf("-----[Done]-----\n");
 	}
 	else if(strcmp(in, "restart") == 0) {
 		init();
@@ -78,10 +69,11 @@ void handler(char in[100], char out[100]) {
 
 int main() {
 	// Inits the socket controller
-	unsigned int sock = socket_init("socket");
-
-
-	socket_loop(sock, handler);
-	socket_close(sock);
+	unsigned int ctl_sock = socket_init("socket");
+	unsigned int client_sock = socket_wait_client(ctl_sock);
+	
+	debug_register_socket(client_sock);
+	socket_loop(client_sock, handler);
+	socket_close(ctl_sock);
 	return 0;
 }

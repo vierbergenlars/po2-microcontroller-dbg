@@ -24,8 +24,9 @@ void Delay1TCY() {
 };
 
 void Delay10TCYx(unsigned char unit) {
+	int i;
 	while(unit > 0) {
-		for(int i = 0; i < 10; i++) {
+		for(i = 0; i < 10; i++) {
 			Delay1TCY();
 		}
 		unit--;
@@ -33,19 +34,22 @@ void Delay10TCYx(unsigned char unit) {
 };
 
 void Delay100TCYx(unsigned char unit) {
-	for(int i = 0; i < 10; i++) {
+	int i;
+	for(i = 0; i < 10; i++) {
 		Delay10TCYx(unit);
 	}
 };
 
 void Delay1KTCYx(unsigned char unit) {
-	for(int i = 0; i < 10; i++) {
+	int i;
+	for(i = 0; i < 10; i++) {
 		Delay100TCYx(unit);
 	}
 };
 
 void Delay10KTCYx(unsigned char unit) {
-	for(int i = 0; i < 10; i++) {
+	int i;
+	for(i = 0; i < 10; i++) {
 		Delay1KTCYx(unit);
 	}
 };
