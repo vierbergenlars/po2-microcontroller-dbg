@@ -78,7 +78,6 @@ void socket_read(unsigned int sock, char str[], unsigned int len) {
 };
 
 void socket_write(unsigned int sock, char data[]) {
-	printf("DEBUG: socket_write(%d, %s)", sock, data);
 	if(send(sock, data, strlen(data), 0) < 0)
 		socket_fail(errno, "Cannot send to socket");
 };
@@ -92,8 +91,6 @@ void socket_loop(unsigned int sock, void (*func)(char [100], char [100])) {
 		strncpy(return_data, "", sizeof(return_data));
 		socket_read(sock, str, sizeof str);
 
-		printf("DEBUG: str(%d) is `%s`\n", strlen(str), str);
-
 		if(strncmp(str, "close", 5) == 0) {
 			printf("Socket: Connection closed\n");
 			close(sock);
@@ -102,9 +99,7 @@ void socket_loop(unsigned int sock, void (*func)(char [100], char [100])) {
 
 		func(str, return_data);
 		
-		printf("DEBUG: return_data(%d) is `%s`\n", strlen(return_data), return_data);
 		strncat(return_data, "\1", 1);
-		printf("DEBUG: return_data(%d) is `%s`\n", strlen(return_data), return_data);
 		socket_write(sock, return_data);
 	}
 	
