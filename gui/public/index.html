@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Microcontroller debugger</title>
+	</head>
+	<body>
+		<table>
+			<thead><tr><th>LED no.</th><th>Status</th></tr></thead>
+			<tbody>
+				<tr><td>1</td><td><input type="checkbox" id="led1" onclick="updatePin(this)"></td></tr>
+				<tr><td>2</td><td><input type="checkbox" id="led2" onclick="updatePin(this)"></td></tr>
+				<tr><td>3</td><td><input type="checkbox" id="led3" onclick="updatePin(this)"></td></tr>
+				<tr><td>4</td><td><input type="checkbox" id="led4" onclick="updatePin(this)"></td></tr>
+				<tr><td>5</td><td><input type="checkbox" id="led5" onclick="updatePin(this)"></td></tr>
+				<tr><td>6</td><td><input type="checkbox" id="led6" onclick="updatePin(this)"></td></tr>
+				<tr><td>7</td><td><input type="checkbox" id="led7" onclick="updatePin(this)"></td></tr>
+			</tbody>
+		</table>
+		<input type="checkbox" id="run">Run
+		<button onclick="socket.write('cont')">Continue</button>
+		<button onclick="socket.write('restart')">Restart</button>
+	</body>
+</html>
