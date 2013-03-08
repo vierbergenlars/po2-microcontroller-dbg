@@ -47,6 +47,7 @@ unsigned int socket_init(char filename[]) {
 
 	local.sun_family = AF_UNIX;
 	strcpy(local.sun_path, filename);
+	unlink(filename);
 	len = strlen(local.sun_path) + sizeof(local.sun_family);
 	if(bind(sock, (struct sockaddr *)&local, len) == -1)
 		socket_fail(errno, "Cannot bind socket");
@@ -88,6 +89,12 @@ void socket_loop(unsigned int sock, void (*func)(char [100], char [100])) {
 				printf("Socket: Connection closed\n");
 				close(s2);
 				break;
+			}
+			else if(strncmp(str, "quit", 4) ==0) {
+				printf("Socket: Shutting down\n");
+				close(s2);
+				close(sock);
+				exit(0);
 			}
 
 			func(str, return_data);
