@@ -51,7 +51,7 @@ int InOut7; //  TRISEbits.TRISE1
  */
 void setInOut(int pin, int inOut) {
 	char debug[50];
-	snprintf(debug, sizeof debug, "io %d: %d\n", pin, data);
+	snprintf(debug, sizeof debug, "io %d: %d\n", pin, inOut);
 	debug_write(debug);
 	//printf("setInOut: pin %d to %d\n", pin, inOut); 
 	inOut = (inOut != 0);
