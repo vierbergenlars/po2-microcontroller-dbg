@@ -1,24 +1,12 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Microcontroller debugger</title>
+		<title>Microcontroller GUI</title>
 	</head>
 	<body>
-		<table>
-			<thead><tr><th>LED no.</th><th>Type</th><th>Status</th></tr></thead>
-			<tbody>
-				<tr><td>1</td><td id="pin1Type">?</td><td><input type="checkbox" id="led1" onclick="updatePin(this)"></td></tr>
-				<tr><td>2</td><td id="pin2Type">?</td><td><input type="checkbox" id="led2" onclick="updatePin(this)"></td></tr>
-				<tr><td>3</td><td id="pin3Type">?</td><td><input type="checkbox" id="led3" onclick="updatePin(this)"></td></tr>
-				<tr><td>4</td><td id="pin4Type">?</td><td><input type="checkbox" id="led4" onclick="updatePin(this)"></td></tr>
-				<tr><td>5</td><td id="pin5Type">?</td><td><input type="checkbox" id="led5" onclick="updatePin(this)"></td></tr>
-				<tr><td>6</td><td id="pin6Type">?</td><td><input type="checkbox" id="led6" onclick="updatePin(this)"></td></tr>
-				<tr><td>7</td><td id="pin7Type">?</td><td><input type="checkbox" id="led7" onclick="updatePin(this)"></td></tr>
-			</tbody>
-		</table>
-		<input type="checkbox" id="run">Run
-		<button onclick="socket.write('cont')">Continue</button>
-		<button onclick="socket.write('restart')">Restart</button>
-		<button onclick="socket.write('close'); setTimeout(function() { window.close();}, 1000);">Kill</button>
+		<button onclick="window.open2('/editor.html', 'editor')">1. Edit</button><br>
+		<button onclick="window.open2('/compile.html', 'compile')">2. Compile</button><br>
+		<button onclick="window.open2('/debug.html', 'debug')">3. Debug</button><hr>
+		<button onclick="window.quit()">Exit</button><br>
 	</body>
 </html>

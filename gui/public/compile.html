@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Compile :: Microcontroller GUI</title>
+		<style>
+			#spinner {
+				background-color: red;
+				color: white;
+				width: 100%;
+				height: 40px;
+			}
+			textarea {
+				width: 100%;
+				max-width: 100%;
+				color: white;
+				background-color: black;
+				height: 200px;
+			}
+		</style>
+		
+		<script src="compile.js"></script>
+	</head>
+	<body>
+		<button onclick="window.open2('/index.html', 'index');">Return</button>
+		<div id="spinner" style="display: none">Running...</div>
+		<button onclick="exec_make()" id="make">make</button>
+		<button id="enter_debugger" onclick="if(module.exports.windows.debug&&module.exports.windows.debug.app&&module.exports.windows.debug.app.kill) {module.exports.windows.debug.app.kill('SIGKILL')};window.open2('/debug.html','debug').on('ready', function() {this.document.getElementById('boot').click()})" disabled>Enter debugger</button>
+		<textarea></textarea>
+	</body>
+</html>

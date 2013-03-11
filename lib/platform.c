@@ -10,7 +10,6 @@
 #include "platform.h"
 #include <unistd.h> // sleep(), usleep()
 #include <stdio.h> // printf()
-#include "debug.h"
 
 
 // Some general configurations
@@ -50,9 +49,8 @@ int InOut7; //  TRISEbits.TRISE1
  * Other values are considered to be 1.
  */
 void setInOut(int pin, int inOut) {
-	char debug[50];
-	snprintf(debug, sizeof debug, "io %d: %d\n", pin, inOut);
-	debug_write(debug);
+	printf("io %d: %d\n", pin, inOut);
+	fflush(stdout);
 	//printf("setInOut: pin %d to %d\n", pin, inOut); 
 	inOut = (inOut != 0);
 	switch(pin) {
@@ -123,11 +121,8 @@ int getInOut(int pin) {
  * to 0.
  */
 void setData(int pin, int data) {
-	printf("setData: pin %d to %d\n", pin, data);
-	char debug[50];
-	snprintf(debug, sizeof debug, "pin %d: %d\n", pin, data);
-	debug_write(debug);
-
+	printf("pin %d: %d\n", pin, data);
+	fflush(stdout);
 	data =  (data != 0);
 	switch(pin) {
 		case 1:
@@ -215,7 +210,7 @@ int getData(int pin) {
 		}
 	}
 
-	printf("getData: pin %d is %d\n", pin, data); 
+	//printf("getData: pin %d is %d\n", pin, data); 
 	return data;
 }
 

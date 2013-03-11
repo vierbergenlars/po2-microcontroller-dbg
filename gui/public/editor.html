@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Editor :: Microcontroller GUI</title>
+		<style>
+			#spinner {
+				background-color: red;
+				color: white;
+				width: 100%;
+				height: 40px;
+			}
+			#init {
+				margin-left: 4.8em;
+			}
+			#loop {
+				margin-left: 9.6em;
+			}
+
+			
+		</style>
+		<script src="codemirror/lib/codemirror.js"></script>
+		<script src="codemirror/addon/edit/matchbrackets.js"></script>
+		<link rel="stylesheet" href="codemirror/lib/codemirror.css"></script>
+		<script src="codemirror/mode/clike/clike.js"></script>		
+		<script src="editor.js"></script>
+		
+		<link rel="stylesheet" href="editor.css">
+		<style>
+		      .CodeMirror {
+			border: 1px solid #eee;
+			height: auto;
+		      }
+		      .CodeMirror-scroll {
+			overflow-y: hidden;
+			overflow-x: auto;
+		      }
+		</style>
+	</head>
+	<body onload="setTimeout(main, 500)">
+		<button onclick="save(); window.open2('/index.html', 'index')">Return</button>
+		<button onclick="save();window.open2('/compile.html', 'compile').on('ready', function() {this.document.getElementById('make').click()})">Compile</button>
+		<div id="spinner" style="display: none">Saving...</div>
+<pre id="editor"><span class="preprocessor">#include "platform.h"</span><div id="vars"></div><span class="keyword">int</span> main() {<div id="init"></div>	<span class="keyword">while</span>(<span class="number">1</span>) {<div id="loop"></div>	}
+}
+</pre>
+	</body>
+</html>

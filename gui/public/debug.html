@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Debug :: Microcontroller GUI</title>
+		<style>
+			#spinner {
+				background-color: red;
+				color: white;
+				width: 100%;
+				height: 100px;
+			}
+			textarea {
+				background-color: black;
+				width: 100%;
+				max-width: 100%;
+				min-height: 140px;
+				color: white;
+			}
+		</style>
+		<script src="debug.js"></script>
+	</head>
+	<body>
+		<div>
+			<button onclick="window.open2('/index.html', 'index')" id="return">Return</button>
+		<span id="app_controls">
+			<button onclick="start_program()" id="boot">Start program</button>
+			<button onclick="window.open2('/editor.html', 'editor')">Edit program</button>
+		</span>
+		</div>
+		<div id="spinner" style="display: none">Running...</div>
+		<table>
+			<thead><tr><th>LED no.</th><th>Type</th><th>Status</th></tr></thead>
+			<tbody>
+				<tr><td>1</td><td id="pin1Type">?</td><td><input type="checkbox" id="led1" onclick="updatePin(this)"></td></tr>
+				<tr><td>2</td><td id="pin2Type">?</td><td><input type="checkbox" id="led2" onclick="updatePin(this)"></td></tr>
+				<tr><td>3</td><td id="pin3Type">?</td><td><input type="checkbox" id="led3" onclick="updatePin(this)"></td></tr>
+				<tr><td>4</td><td id="pin4Type">?</td><td><input type="checkbox" id="led4" onclick="updatePin(this)"></td></tr>
+				<tr><td>5</td><td id="pin5Type">?</td><td><input type="checkbox" id="led5" onclick="updatePin(this)"></td></tr>
+				<tr><td>6</td><td id="pin6Type">?</td><td><input type="checkbox" id="led6" onclick="updatePin(this)"></td></tr>
+				<tr><td>7</td><td id="pin7Type">?</td><td><input type="checkbox" id="led7" onclick="updatePin(this)"></td></tr>
+			</tbody>
+		</table>
+
+			<input type="checkbox" id="run">Run
+		<div>
+		<span id="run_controls">
+			<button onclick="block();send('cont')">Continue</button>
+			<button onclick="block();send('restart')">Restart</button>
+		</span>
+			<button onclick="block();app.kill('SIGTERM')">Terminate</button>
+			<button onclick="block();app.kill('SIGKILL')">Kill</button>
+		</div>
+		<textarea></textarea>
+		<script>set_run_controls_active(false)</script>
+	</body>
+</html>

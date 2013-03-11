@@ -10,7 +10,6 @@
   "author": "Lars Vierbergen",
   "license": "BSD",
   "dependencies": {
-    "appjs-linux-x64": "0.0.19",
     "appjs": "0.0.20"
   }
 }
