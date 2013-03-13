@@ -3,12 +3,11 @@
 #else
 #include "platform.h"
 #endif
-/*
- * The program starts here.
- */
+
 // @vars start
-// Variable declarations here
+// Variable declarations & extra functions
 // @vars end
+
 void loop() {
 // @loop start
 // Program loop here
