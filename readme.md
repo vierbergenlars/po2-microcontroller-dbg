@@ -29,3 +29,6 @@ Requirements:
 7. ??
 8. Profit!
 
+## Example
+
+[View online](https://github.com/vierbergenlars/po2-microcontroller-debugger/tree/example-blinker) or [get a tarball](https://github.com/vierbergenlars/po2-microcontroller-debugger/tarball/example-blinker)
