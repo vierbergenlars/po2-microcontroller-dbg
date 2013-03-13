@@ -24,7 +24,6 @@ Requirements:
     * Restart: to rerun the initialisation code.
     * Terminate: Stop the program. **Do this before compiling the code again**
     * Kill: If the program is stuck (infinite loop etc). This will terminate the program immediately
-
 5. Once everything works, copy-paste the code in the edit screen to the project in PICkit
 6. Use exit to stop the IDE **(make sure the program is terminated in the debugger before clicking this)**
 7. ??
