@@ -28,7 +28,7 @@ CC = gcc
 %.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@ $(CDEF)
 
-program/app: lib/emulator.o  program/main.o lib/platform.o lib/timers.o lib/util.o
+program/app: $(patsubst %.c,%.o,$(wildcard program/*.c)) lib/emulator.o  lib/platform.o lib/timers.o lib/util.o
 	$(CC) $+ -Wall -o $@
 
 clean:
