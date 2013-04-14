@@ -138,6 +138,27 @@ function start_program() {
 	
 }
 
+function load_led_data() {
+    require('fs').readFile(__dirname+'/debug.settings', function(err, data) {
+        if(err) return;
+        var lines = data.toString().split("\n");
+        var rows = document.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+        for(var i = 0; i < 7; i++) {
+            rows[i].getElementsByTagName('td')[0].innerText = lines[i];
+        }
+    });
+}
+
+function save_led_data() {
+    var lines = [];
+    var rows = document.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+    for(var i = 0; i < 7; i++) {
+        lines[i] = rows[i].getElementsByTagName('td')[0].innerText;
+    }
+    var data = lines.join("\n");
+    require('fs').writeFileSync(__dirname+'/debug.settings', data);
+}
+
 
 
 

@@ -43,7 +43,7 @@
 		</style>
 		<script src="debug.js"></script>
 	</head>
-	<body>
+	<body onload="setTimeout(load_led_data, 500)"><!---->
 		<div>
 			<button onclick="window.open2('/index.html', 'index')" id="return">Return</button>
 		<span id="app_controls">
@@ -55,13 +55,13 @@
 		<table>
 			<thead><tr><th>LED no.</th><th>Type</th><th>Status</th></tr></thead>
 			<tbody>
-				<tr><td>1</td><td id="pin1Type">?</td><td><input type="checkbox" id="led1" onclick="updatePin(this)"></td></tr>
-				<tr><td>2</td><td id="pin2Type">?</td><td><input type="checkbox" id="led2" onclick="updatePin(this)"></td></tr>
-				<tr><td>3</td><td id="pin3Type">?</td><td><input type="checkbox" id="led3" onclick="updatePin(this)"></td></tr>
-				<tr><td>4</td><td id="pin4Type">?</td><td><input type="checkbox" id="led4" onclick="updatePin(this)"></td></tr>
-				<tr><td>5</td><td id="pin5Type">?</td><td><input type="checkbox" id="led5" onclick="updatePin(this)"></td></tr>
-				<tr><td>6</td><td id="pin6Type">?</td><td><input type="checkbox" id="led6" onclick="updatePin(this)"></td></tr>
-				<tr><td>7</td><td id="pin7Type">?</td><td><input type="checkbox" id="led7" onclick="updatePin(this)"></td></tr>
+				<tr><td contenteditable onblur="save_led_data()">1</td><td id="pin1Type">?</td><td><input type="checkbox" id="led1" onclick="updatePin(this)"></td></tr>
+				<tr><td contenteditable onblur="save_led_data()">2</td><td id="pin2Type">?</td><td><input type="checkbox" id="led2" onclick="updatePin(this)"></td></tr>
+				<tr><td contenteditable onblur="save_led_data()">3</td><td id="pin3Type">?</td><td><input type="checkbox" id="led3" onclick="updatePin(this)"></td></tr>
+				<tr><td contenteditable onblur="save_led_data()">4</td><td id="pin4Type">?</td><td><input type="checkbox" id="led4" onclick="updatePin(this)"></td></tr>
+				<tr><td contenteditable onblur="save_led_data()">5</td><td id="pin5Type">?</td><td><input type="checkbox" id="led5" onclick="updatePin(this)"></td></tr>
+				<tr><td contenteditable onblur="save_led_data()">6</td><td id="pin6Type">?</td><td><input type="checkbox" id="led6" onclick="updatePin(this)"></td></tr>
+				<tr><td contenteditable onblur="save_led_data()">7</td><td id="pin7Type">?</td><td><input type="checkbox" id="led7" onclick="updatePin(this)"></td></tr>
 			</tbody>
 		</table>
 
