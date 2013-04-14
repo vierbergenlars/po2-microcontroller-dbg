@@ -4,6 +4,7 @@ function main() {
 		block();
 		var fs = require('fs')
 		var data = fs.readFileSync(__dirname+'/../program/main.c', 'ascii');
+		data = data.replace("\r\n", "\n");
 		if(!vars.isClean()) {
 			var vars_dta = vars.getValue();
 			data = replace(data, vars_dta, '// @vars start', '// @vars end');
@@ -57,14 +58,14 @@ function unblock() {
 }
 
 function cut(data, start_text, end_text) {
-	var loop_start = data.indexOf(start_text) + start_text.length + 2;
-	var loop_end = data.indexOf(end_text)-2;
+	var loop_start = data.indexOf(start_text) + start_text.length + 1;
+	var loop_end = data.indexOf(end_text)-1;
 	return data.substring(loop_start, loop_end);
 }
 
 function replace(data, replacement, start_text, end_text) {
-	var loop_start = data.indexOf(start_text) + start_text.length + 2;
-	var loop_end = data.indexOf(end_text)-2;
+	var loop_start = data.indexOf(start_text) + start_text.length + 1;
+	var loop_end = data.indexOf(end_text)-1;
 	return (data.substring(0, loop_start)+replacement+data.substring(loop_end)).trim();
 }
 
