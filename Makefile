@@ -32,5 +32,5 @@ program/app: $(patsubst %.c,%.o,$(wildcard program/*.c)) lib/emulator.o  lib/pla
 	$(CC) $+ -Wall -o $@
 
 clean:
-	rm -f *.o
+	rm -f program/*.o
 	rm -f program/app
