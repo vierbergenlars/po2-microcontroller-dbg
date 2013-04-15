@@ -33,25 +33,18 @@
 
 // Define data (DataIn, DataOut) and in/out (InOut) registers
 int DataOut1; 
-int DataIn1;
 int InOut1;
 int DataOut2;
-int DataIn2;
 int InOut2;
 int DataOut3;
-int DataIn3;
 int InOut3;
 int DataOut4;
-int DataIn4;
 int InOut4;
 int DataOut5;
-int DataIn5;
 int InOut5;
 int DataOut6;
-int DataIn6;
 int InOut6;
 int DataOut7;
-int DataIn7;
 int InOut7;
 
 
@@ -170,7 +163,6 @@ void setData(int pin, int data) {
  */
 int getData(int pin) {
 	int data;
-	if (getInOut(pin) == 0) {
 		switch(pin) {
 			case 1:
 				data = DataOut1;
@@ -194,33 +186,6 @@ int getData(int pin) {
 				data = DataOut7;
 				break;
 		}
-	}
-	else {
-		switch(pin) {
-			case 1:
-				data = DataIn1;
-				break;
-			case 2:
-				data = DataIn2;
-				break;
-			case 3:
-				data = DataIn3;
-				break;
-			case 4:
-				data = DataIn4;
-				break;
-			case 5:
-				data = DataIn5;
-				break;
-			case 6:
-				data = DataIn6;
-				break;
-			case 7:
-				data = DataIn7;
-				break;
-		}
-	}
-
 	return data;
 }
 
