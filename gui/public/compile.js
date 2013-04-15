@@ -21,8 +21,8 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 function exec_make() {
-	var spawn = require('child_process').spawn;
-	var make = spawn('make', [], {'cwd': __dirname+'/..'});
+	var execv = require('child_process').exec;
+	var make = execv('make clean all',{'cwd': __dirname+'/..'});
 	var textarea = document.getElementsByTagName('textarea')[0];
 	make.on('exit', function(code) {
 		if(code > 0) {
@@ -36,7 +36,7 @@ function exec_make() {
 
 	});
 	document.getElementById('spinner').display="block";
-	textarea.value+="$ make\n";
+	textarea.value+="$ make clean all\n";
 	
 	make.stdout.on('data', function(data) {
 		textarea.value+=data;
